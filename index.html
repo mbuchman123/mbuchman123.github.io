@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;700&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{--blue:#003087;--blue-l:#e8eef7;--blue-m:#b5c9e8;--orange:#FA4616;--orange-l:#fff0ec;--text:#111;--muted:#6b6b6b;--bg:#f9f9f7;--surface:#fff;--border:rgba(0,0,0,0.07);}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);font-size:15px;line-height:1.7;-webkit-font-smoothing:antialiased;}
+
+/* NAV */
+nav{background:var(--blue);padding:0 5vw;display:flex;justify-content:space-between;align-items:center;height:62px;position:sticky;top:0;z-index:200;}
+.nav-logo img{height:38px;filter:brightness(0) invert(1);}
+.nav-links{display:flex;gap:1.75rem;list-style:none;}
+.nav-links a{font-size:13px;color:rgba(255,255,255,0.6);text-decoration:none;transition:color 0.2s;position:relative;}
+.nav-links a::after{content:'';position:absolute;bottom:-2px;left:0;width:0;height:1px;background:var(--orange);transition:width 0.25s;}
+.nav-links a:hover{color:#fff;}
+.nav-links a:hover::after{width:100%;}
+
+/* HERO */
+.hero{padding:7rem 5vw 6rem;max-width:860px;margin:0 auto;}
+.hero-eyebrow{display:flex;gap:10px;margin-bottom:1.75rem;flex-wrap:wrap;}
+.etag{font-size:12px;letter-spacing:0.07em;text-transform:uppercase;padding:4px 14px;border-radius:20px;font-weight:500;}
+.etag.blue{background:var(--blue-l);color:var(--blue);}
+.etag.orange{background:var(--orange-l);color:var(--orange);}
+h1{font-family:'DM Serif Display',serif;font-size:clamp(2.6rem,5.5vw,3.8rem);font-weight:400;line-height:1.08;letter-spacing:-0.025em;margin-bottom:1.5rem;}
+.h1-line{display:block;overflow:hidden;}
+.h1-inner{display:block;animation:slideUp 0.7s cubic-bezier(.22,1,.36,1) both;}
+.h1-line:nth-child(1) .h1-inner{animation-delay:0.2s;}
+.h1-line:nth-child(2) .h1-inner{animation-delay:0.33s;}
+.h1-line:nth-child(3) .h1-inner{animation-delay:0.46s;}
+@keyframes slideUp{from{transform:translateY(110%)}to{transform:none}}
+h1 em{font-style:italic;color:var(--muted);}
+.hero-sub{font-size:17px;color:var(--muted);max-width:480px;margin-bottom:2.5rem;line-height:1.65;}
+.hero-actions{display:flex;gap:10px;flex-wrap:wrap;}
+.btn{display:inline-flex;align-items:center;gap:7px;padding:10px 20px;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:500;text-decoration:none;border-radius:8px;cursor:pointer;border:none;transition:transform 0.15s,background 0.15s;}
+.btn:active{transform:scale(0.97);}
+.btn-primary{background:var(--blue);color:#fff;}
+.btn-primary:hover{background:#002070;transform:translateY(-1px);}
+.btn-orange{background:var(--orange);color:#fff;}
+.btn-orange:hover{background:#e03a0e;transform:translateY(-1px);}
+.btn-ghost{background:var(--surface);color:var(--text);border:1px solid rgba(0,0,0,0.15);}
+.btn-ghost:hover{background:#f0f0ee;transform:translateY(-1px);}
+
+/* SECTION */
+.section{padding:5rem 5vw;max-width:860px;margin:0 auto;}
+.sec-header{display:flex;align-items:center;gap:12px;margin-bottom:2.5rem;}
+.sec-pill{font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:var(--blue);background:var(--blue-l);padding:4px 12px;border-radius:20px;font-weight:500;white-space:nowrap;}
+.sec-line{flex:1;height:1px;background:var(--border);}
+
+/* EXPERIENCE CARDS WITH BANNER */
+.exp-list{display:flex;flex-direction:column;gap:1.5px;background:var(--border);border:1px solid var(--border);border-radius:14px;overflow:hidden;}
+.exp-row{background:var(--surface);cursor:pointer;}
+.exp-banner{width:100%;height:110px;position:relative;overflow:hidden;background:linear-gradient(135deg,var(--blue) 0%,#1a5fa8 40%,var(--orange) 100%);transition:height 0.2s;}
+.exp-banner img{width:100%;height:100%;object-fit:cover;position:absolute;inset:0;}
+.banner-overlay{position:absolute;inset:0;background:rgba(0,0,0,0.18);}
+.banner-edit{position:absolute;bottom:8px;right:10px;display:flex;gap:6px;opacity:0;transition:opacity 0.2s;z-index:2;}
+.exp-row:hover .banner-edit{opacity:1;}
+.banner-btn{font-size:11px;padding:4px 10px;border-radius:5px;border:1px solid rgba(255,255,255,0.4);background:rgba(0,0,0,0.35);color:#fff;cursor:pointer;backdrop-filter:blur(6px);font-family:'DM Sans',sans-serif;font-weight:500;transition:background 0.15s;}
+.banner-btn:hover{background:rgba(0,0,0,0.55);}
+.banner-input{display:none;}
+.exp-header-inner{display:flex;align-items:flex-start;gap:14px;padding:1.4rem 1.75rem;transition:background 0.18s;}
+.exp-row:hover .exp-header-inner{background:#fafaf8;}
+.exp-icon{width:42px;height:42px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;margin-top:1px;transition:transform 0.2s cubic-bezier(.22,1,.36,1);}
+.exp-row:hover .exp-icon{transform:scale(1.08);}
+.icon-blue{background:var(--blue-l);}
+.icon-orange{background:var(--orange-l);}
+.icon-blue2{background:#dce8f7;}
+.icon-orange2{background:#fce8e0;}
+.icon-teal{background:#e1f5ee;}
+.exp-meta{flex:1;min-width:0;}
+.exp-role{font-size:15px;font-weight:500;}
+.exp-org{font-size:13px;color:var(--muted);margin-top:1px;}
+.exp-right{display:flex;flex-direction:column;align-items:flex-end;gap:5px;flex-shrink:0;}
+.exp-date{font-size:12px;color:var(--muted);white-space:nowrap;}
+.exp-badge{font-size:11px;padding:3px 9px;border-radius:4px;}
+.badge-current{background:var(--blue-l);color:var(--blue);}
+.badge-ops{background:var(--orange-l);color:var(--orange);}
+.badge-mkt{background:#eeedfe;color:#534ab7;}
+.badge-svc{background:#e1f5ee;color:#0f6e56;}
+.chevron{font-size:13px;color:var(--muted);transition:transform 0.3s cubic-bezier(.22,1,.36,1);margin-top:2px;}
+.exp-row.open .chevron{transform:rotate(180deg);}
+.exp-panel{display:grid;grid-template-rows:0fr;transition:grid-template-rows 0.4s cubic-bezier(.22,1,.36,1);}
+.exp-row.open .exp-panel{grid-template-rows:1fr;border-top:1px solid var(--border);}
+.exp-panel-inner{overflow:hidden;}
+.panel-inner{padding:1.75rem;display:flex;flex-direction:column;gap:1.25rem;}
+.panel-desc{font-size:15px;color:#444;line-height:1.65;padding-left:56px;}
+.panel-bullets{list-style:none;display:flex;flex-direction:column;gap:8px;padding-left:56px;}
+.panel-bullets li{display:flex;gap:10px;font-size:14px;color:#555;line-height:1.5;}
+.panel-bullets li::before{content:"—";color:var(--muted);flex-shrink:0;}
+.panel-highlights{display:flex;flex-wrap:wrap;gap:7px;padding-left:56px;}
+.hl-blue{font-size:12px;padding:4px 10px;background:var(--blue-l);color:var(--blue);border-radius:20px;font-weight:500;}
+.hl-orange{font-size:12px;padding:4px 10px;background:var(--orange-l);color:var(--orange);border-radius:20px;font-weight:500;}
+.gallery-label{font-size:11px;text-transform:uppercase;letter-spacing:0.07em;color:var(--muted);margin-bottom:0.75rem;padding-left:56px;}
+.gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;padding-left:56px;}
+.photo-slot{aspect-ratio:4/3;border-radius:10px;border:1.5px dashed rgba(0,48,135,0.2);background:var(--blue-l);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;cursor:pointer;transition:border-color 0.2s,background 0.2s,transform 0.2s cubic-bezier(.22,1,.36,1);overflow:hidden;position:relative;}
+.photo-slot:hover{border-color:var(--blue);background:#dce8f7;transform:scale(1.02);}
+.photo-slot input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%;}
+.photo-slot img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:9px;}
+.photo-slot img.hidden{display:none;}
+.slot-label{font-size:12px;color:var(--blue);z-index:1;pointer-events:none;}
+.slot-icon{font-size:18px;color:var(--blue);z-index:1;pointer-events:none;}
+.photo-slot.has-photo .slot-label,.photo-slot.has-photo .slot-icon{display:none;}
+
+/* LEADERSHIP same structure */
+.lead-list{display:flex;flex-direction:column;gap:1.5px;background:var(--border);border:1px solid var(--border);border-radius:14px;overflow:hidden;}
+.lead-row{background:var(--surface);cursor:pointer;}
+.lead-banner{width:100%;height:90px;position:relative;overflow:hidden;background:linear-gradient(135deg,var(--blue) 0%,#1a5fa8 40%,var(--orange) 100%);}
+.lead-banner img{width:100%;height:100%;object-fit:cover;position:absolute;inset:0;}
+.lead-header{display:flex;align-items:flex-start;gap:14px;padding:1.4rem 1.75rem;transition:background 0.18s;}
+.lead-row:hover .lead-header{background:#fafaf8;}
+.lead-accent-bar{width:4px;height:40px;border-radius:2px;flex-shrink:0;margin-top:3px;}
+.accent-blue{background:var(--blue);}
+.accent-orange{background:var(--orange);}
+.lead-meta{flex:1;}
+.lead-org-sm{font-size:12px;text-transform:uppercase;letter-spacing:0.07em;color:var(--muted);margin-bottom:3px;}
+.lead-role-sm{font-size:15px;font-weight:500;line-height:1.25;}
+.lead-date-sm{font-size:12px;color:var(--muted);margin-top:2px;}
+.lead-panel{display:grid;grid-template-rows:0fr;transition:grid-template-rows 0.4s cubic-bezier(.22,1,.36,1);}
+.lead-row.open .lead-panel{grid-template-rows:1fr;border-top:1px solid var(--border);}
+.lead-panel-inner{overflow:hidden;}
+.lead-panel-body{padding:1.5rem 1.75rem;display:flex;flex-direction:column;gap:1rem;}
+.lead-panel-desc{font-size:14px;color:#444;line-height:1.65;}
+.lead-panel-bullets{list-style:none;display:flex;flex-direction:column;gap:7px;}
+.lead-panel-bullets li{display:flex;gap:10px;font-size:13px;color:#555;line-height:1.5;}
+.lead-panel-bullets li::before{content:"—";color:var(--muted);flex-shrink:0;}
+
+/* SKILLS */
+.skills-section{display:flex;flex-direction:column;gap:2.5rem;}
+.skill-category h3{font-family:'DM Serif Display',serif;font-size:1.3rem;font-weight:400;margin-bottom:1rem;letter-spacing:-0.01em;}
+.skill-chips{display:flex;flex-wrap:wrap;gap:8px;}
+.skill-chip{font-size:13px;padding:7px 16px;border-radius:8px;border:1.5px solid var(--border);background:var(--surface);color:var(--text);cursor:pointer;transition:all 0.18s;font-family:'DM Sans',sans-serif;font-weight:500;}
+.skill-chip:hover{border-color:var(--blue);color:var(--blue);background:var(--blue-l);}
+.skill-chip.active{border-color:var(--blue);color:var(--blue);background:var(--blue-l);}
+.skill-chip.orange-chip:hover,.skill-chip.orange-chip.active{border-color:var(--orange);color:var(--orange);background:var(--orange-l);}
+
+/* Skill panel */
+.skill-panel{display:none;margin-top:1rem;background:var(--surface);border:1px solid var(--border);border-radius:12px;overflow:hidden;animation:fadeUp 0.3s cubic-bezier(.22,1,.36,1);}
+.skill-panel.open{display:block;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+.skill-panel-header{padding:1rem 1.25rem;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;}
+.skill-panel-name{font-weight:500;font-size:14px;}
+.skill-panel-close{font-size:18px;color:var(--muted);cursor:pointer;line-height:1;background:none;border:none;padding:0 4px;}
+.skill-panel-close:hover{color:var(--text);}
+.skill-used-list{padding:1rem 1.25rem;display:flex;flex-direction:column;gap:0.6rem;}
+.skill-used-item{display:flex;align-items:center;gap:10px;font-size:13px;padding:8px 12px;border-radius:8px;background:var(--bg);transition:background 0.15s;}
+.skill-used-item:hover{background:var(--blue-l);}
+.skill-used-icon{font-size:16px;flex-shrink:0;}
+.skill-used-text{flex:1;}
+.skill-used-role{font-weight:500;font-size:13px;}
+.skill-used-org{font-size:12px;color:var(--muted);}
+
+/* INTERESTS */
+.interest-list{display:flex;flex-direction:column;gap:1.5px;background:var(--border);border:1px solid var(--border);border-radius:14px;overflow:hidden;}
+.interest-row{background:var(--surface);}
+.interest-header{display:flex;align-items:center;gap:14px;padding:1.25rem 1.75rem;cursor:pointer;transition:background 0.15s;}
+.interest-row:hover .interest-header{background:#fafaf8;}
+.interest-icon-wrap{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;}
+.interest-meta{flex:1;}
+.interest-name{font-size:15px;font-weight:500;}
+.interest-sub{font-size:13px;color:var(--muted);}
+.interest-chevron{font-size:13px;color:var(--muted);transition:transform 0.3s cubic-bezier(.22,1,.36,1);}
+.interest-row.open .interest-chevron{transform:rotate(180deg);}
+.interest-panel{display:grid;grid-template-rows:0fr;transition:grid-template-rows 0.4s cubic-bezier(.22,1,.36,1);}
+.interest-row.open .interest-panel{grid-template-rows:1fr;border-top:1px solid var(--border);}
+.interest-panel-inner{overflow:hidden;}
+.interest-body{padding:1.5rem 1.75rem;display:flex;flex-direction:column;gap:1.25rem;}
+.interest-desc{font-size:14px;color:var(--muted);line-height:1.6;}
+.interest-gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;}
+.interest-slot{aspect-ratio:1;border-radius:10px;border:1.5px dashed rgba(0,48,135,0.2);background:var(--blue-l);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;cursor:pointer;transition:all 0.2s cubic-bezier(.22,1,.36,1);overflow:hidden;position:relative;}
+.interest-slot:hover{border-color:var(--blue);background:#dce8f7;transform:scale(1.02);}
+.interest-slot input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%;}
+.interest-slot img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:9px;}
+.interest-slot img.hidden{display:none;}
+.interest-slot.has-photo .slot-label,.interest-slot.has-photo .slot-icon{display:none;}
+.interest-link-row{display:flex;gap:8px;flex-wrap:wrap;}
+.interest-link-input{flex:1;min-width:180px;padding:8px 12px;font-family:'DM Sans',sans-serif;font-size:13px;border:1px solid var(--border);border-radius:7px;outline:none;transition:border-color 0.2s;background:var(--surface);}
+.interest-link-input:focus{border-color:var(--blue);}
+.interest-link-btn{padding:8px 14px;font-family:'DM Sans',sans-serif;font-size:13px;border:none;border-radius:7px;background:var(--blue);color:#fff;cursor:pointer;font-weight:500;transition:background 0.15s;}
+.interest-link-btn:hover{background:#002070;}
+.interest-links-display{display:flex;flex-direction:column;gap:6px;}
+.interest-link-item{display:flex;align-items:center;gap:8px;font-size:13px;padding:7px 10px;background:var(--bg);border-radius:7px;}
+.interest-link-item a{color:var(--blue);text-decoration:none;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.interest-link-item a:hover{text-decoration:underline;}
+.interest-link-remove{font-size:16px;color:var(--muted);cursor:pointer;line-height:1;background:none;border:none;padding:0;}
+.interest-link-remove:hover{color:#c00;}
+
+/* CONTENT */
+.content-outer{background:var(--blue);border-radius:18px;overflow:hidden;margin:0 5vw;max-width:860px;margin-left:auto;margin-right:auto;}
+.content-inner{padding:3rem 3rem 2.5rem;}
+.content-title{font-family:'DM Serif Display',serif;font-size:clamp(2.8rem,6vw,4.5rem);font-weight:400;line-height:0.95;letter-spacing:-0.03em;color:#fff;margin-bottom:2rem;}
+.content-title span{color:var(--orange);}
+.tabs{display:flex;border-bottom:1px solid rgba(255,255,255,0.12);margin-bottom:2rem;}
+.tab{font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.4);padding:0.6rem 0;margin-right:2.25rem;cursor:pointer;position:relative;font-weight:500;border:none;background:none;font-family:'DM Sans',sans-serif;transition:color 0.2s;}
+.tab::after{content:'';position:absolute;bottom:-1px;left:0;width:0;height:2px;background:var(--orange);transition:width 0.3s cubic-bezier(.22,1,.36,1);}
+.tab.active{color:#fff;}
+.tab.active::after{width:100%;}
+.tab-panel{display:none;animation:fadeUp 0.35s cubic-bezier(.22,1,.36,1);}
+.tab-panel.active{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;}
+.video-card{position:relative;border-radius:12px;overflow:hidden;aspect-ratio:9/16;background:rgba(255,255,255,0.06);cursor:pointer;border:1px solid rgba(255,255,255,0.08);transition:transform 0.25s cubic-bezier(.22,1,.36,1),border-color 0.2s;text-decoration:none;display:block;}
+.video-card:hover{transform:translateY(-4px);border-color:rgba(255,255,255,0.25);}
+.video-card:hover .play-btn{background:var(--orange);border-color:var(--orange);}
+.video-card:hover .card-overlay{opacity:0.9;}
+.card-thumb{width:100%;height:100%;object-fit:cover;display:block;position:absolute;inset:0;}
+.card-placeholder{width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;position:absolute;inset:0;}
+.placeholder-icon{font-size:2rem;opacity:0.3;}
+.placeholder-label{font-size:10px;color:rgba(255,255,255,0.2);text-transform:uppercase;letter-spacing:0.08em;}
+.card-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,20,70,0.92) 30%,rgba(0,0,0,0.05) 100%);opacity:0.72;transition:opacity 0.3s;}
+.play-btn{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:42px;height:42px;border-radius:50%;background:rgba(255,255,255,0.15);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,0.3);display:flex;align-items:center;justify-content:center;transition:background 0.2s,border-color 0.2s;}
+.play-btn svg{margin-left:3px;}
+.card-tag{position:absolute;top:10px;left:10px;font-size:10px;font-weight:600;letter-spacing:0.05em;text-transform:uppercase;padding:3px 9px;border-radius:4px;background:rgba(255,255,255,0.15);color:#fff;backdrop-filter:blur(6px);border:1px solid rgba(255,255,255,0.2);}
+.tag-soon{background:var(--orange)!important;border-color:var(--orange)!important;}
+.card-views{position:absolute;top:10px;right:10px;font-size:11px;color:rgba(255,255,255,0.75);}
+.card-bottom{position:absolute;bottom:0;left:0;right:0;padding:1rem;}
+.card-title-v{font-size:12px;font-weight:500;line-height:1.35;margin-bottom:8px;color:#fff;}
+.card-meta{display:flex;justify-content:space-between;align-items:center;}
+.card-platform{display:flex;align-items:center;gap:5px;font-size:10px;letter-spacing:0.06em;color:rgba(255,255,255,0.45);text-transform:uppercase;}
+.platform-dot{width:5px;height:5px;border-radius:50%;background:var(--orange);}
+.card-view-link{font-size:10px;letter-spacing:0.06em;color:rgba(255,255,255,0.45);text-transform:uppercase;text-decoration:none;}
+.video-card:hover .card-view-link{color:#fff;}
+.content-cta{border-top:1px solid rgba(255,255,255,0.1);margin-top:2rem;padding-top:1.5rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;}
+.cta-left strong{color:#fff;font-size:15px;display:block;margin-bottom:2px;}
+.cta-left p{font-size:13px;color:rgba(255,255,255,0.5);}
+.cta-btns{display:flex;gap:8px;}
+.btn-white{background:#fff;color:var(--blue);font-weight:600;}
+.btn-white:hover{background:#f0f4ff;transform:translateY(-1px);}
+.btn-outline-white{background:transparent;color:#fff;border:1px solid rgba(255,255,255,0.25);}
+.btn-outline-white:hover{background:rgba(255,255,255,0.08);transform:translateY(-1px);}
+
+/* CONTACT */
+.contact-split{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:start;}
+.contact-h{font-family:'DM Serif Display',serif;font-size:2rem;font-weight:400;letter-spacing:-0.02em;margin-bottom:0.75rem;}
+.contact-p{color:var(--muted);font-size:15px;margin-bottom:2rem;}
+.contact-links{display:flex;flex-direction:column;gap:0.9rem;}
+.contact-link{display:flex;align-items:center;gap:10px;font-size:14px;color:var(--text);text-decoration:none;transition:color 0.15s,transform 0.2s cubic-bezier(.22,1,.36,1);}
+.contact-link:hover{color:var(--blue);transform:translateX(4px);}
+.c-icon{width:32px;height:32px;border:1px solid var(--border);border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:500;flex-shrink:0;background:var(--surface);transition:background 0.15s,border-color 0.15s;}
+.contact-link:hover .c-icon{background:var(--blue-l);border-color:var(--blue-m);}
+form{display:flex;flex-direction:column;gap:12px;}
+input,textarea{width:100%;padding:10px 14px;font-family:'DM Sans',sans-serif;font-size:14px;border:1px solid var(--border);border-radius:8px;background:var(--surface);color:var(--text);outline:none;resize:none;transition:border-color 0.2s,transform 0.2s;}
+input:focus,textarea:focus{border-color:var(--blue);transform:translateY(-1px);}
+input::placeholder,textarea::placeholder{color:var(--muted);}
+footer{background:var(--blue);padding:2rem 5vw;display:flex;justify-content:space-between;font-size:13px;color:rgba(255,255,255,0.5);align-items:center;margin-top:5rem;}
+.footer-logo img{height:28px;filter:brightness(0) invert(1);opacity:0.8;}
+
+/* Reveal */
+.reveal{opacity:0;transform:translateY(24px);transition:opacity 0.6s cubic-bezier(.22,1,.36,1),transform 0.6s cubic-bezier(.22,1,.36,1);}
+.reveal.visible{opacity:1;transform:none;}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo"><img src="/mnt/user-data/uploads/Screenshot_2026-07-01_131030.png" alt="MB"></div>
+  <ul class="nav-links">
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#leadership">Leadership</a></li>
+    <li><a href="#content">Content</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-eyebrow">
+    <span class="etag blue">UF Warrington · Class of 2027</span>
+    <span class="etag orange">GPA 3.74</span>
+  </div>
+  <h1>
+    <span class="h1-line"><span class="h1-inner">Sports, events,</span></span>
+    <span class="h1-line"><span class="h1-inner">and <em>building things</em></span></span>
+    <span class="h1-line"><span class="h1-inner">that move people.</span></span>
+  </h1>
+  <p class="hero-sub">I'm Matthew — a business student at the University of Florida with hands-on experience in event management, sports operations, NIL marketing, and community leadership.</p>
+  <div class="hero-actions">
+    <a href="#experience" class="btn btn-primary">See my experience</a>
+    <a href="#content" class="btn btn-orange">My content</a>
+    <a href="#contact" class="btn btn-ghost">Get in touch</a>
+  </div>
+</div>
+
+<!-- EXPERIENCE -->
+<div class="section reveal" id="experience">
+  <div class="sec-header"><span class="sec-pill">Work experience</span><div class="sec-line"></div></div>
+  <div class="exp-list">
+
+    <!-- GSC -->
+    <div class="exp-row" id="exp-gsc">
+      <div class="exp-banner" id="banner-gsc">
+        <img id="banner-img-gsc" class="hidden">
+        <div class="banner-overlay"></div>
+        <div class="banner-edit">
+          <label class="banner-btn" onclick="event.stopPropagation()">📷 Upload image<input class="banner-input" type="file" accept="image/*" onchange="loadBanner(this,'gsc')"></label>
+          <button class="banner-btn" onclick="event.stopPropagation();resetBanner('gsc')">✕ Reset</button>
+        </div>
+      </div>
+      <div class="exp-header-inner" onclick="toggleExp(this.closest('.exp-row'))">
+        <div class="exp-icon icon-blue">🏟️</div>
+        <div class="exp-meta"><div class="exp-role">Event Management Intern</div><div class="exp-org">Gainesville Sports Commission</div></div>
+        <div class="exp-right"><span class="exp-date">Jan 2026 – Present</span><span class="exp-badge badge-current">Current</span><span class="chevron">▾</span></div>
+      </div>
+      <div class="exp-panel"><div class="exp-panel-inner"><div class="panel-inner">
+        <p class="panel-desc">Working at the intersection of sports, tourism, and event operations — helping bring major athletic events to Gainesville and coordinating everything from vendor relationships to on-site execution for thousands of participants from around the world.</p>
+        <ul class="panel-bullets"><li>Orchestrate marketing and event operations for 5,000+ athletes from 90+ countries across local, regional, and national sporting events.</li><li>Plan itineraries, coordinate with vendors, and execute on-site events to enhance attendee and participant experience.</li><li>Work alongside commission staff, venue personnel, and external partners on logistics, communications, and operational needs.</li></ul>
+        <div class="panel-highlights"><span class="hl-blue">5,000+ athletes</span><span class="hl-blue">90+ countries</span><span class="hl-orange">Vendor coordination</span><span class="hl-orange">Destination marketing</span></div>
+        <p class="gallery-label">Photos</p>
+        <div class="gallery">
+          <div class="photo-slot" onclick="event.stopPropagation()"><span class="slot-icon">+</span><span class="slot-label">Add photo</span><input type="file" accept="image/*" onchange="loadPhoto(this)"><img class="hidden"></div>
+          <div class="photo-slot" onclick="event.stopPropagation()"><span class="slot-icon">+</span><span class="slot-label">Add photo</span><input type="file" accept="image/*" onchange="loadPhoto(this)"><img class="hidden"></div>
+          <div class="photo-slot" onclick="event.stopPropagation()"><span class="slot-icon">+</span><span class="slot-label">Add photo</span><input type="file" accept="image/*" onchange="loadPhoto(this)"><img class="hidden"></div>
+        </div>
+      </div></div></div>
+    </div>
+
+    <!-- UF Football -->
+    <div class="exp-row" id="exp-uf">
+      <div class="exp-banner"><img id="banner-img-uf" class="hidden"><div class="banner-overlay"></div><div class="banner-edit"><label class="banner-btn" onclick="event.stopPropagation()">📷 Upload image<input class="banner-input" type="file" accept="image/*" onchange="loadBanner(this,'uf')"></label><button class="banner-btn" onclick="event.stopPropagation();resetBanner('uf')">✕ Reset</button></div></div>
+      <div class="exp-header-inner" onclick="toggleExp(this.closest('.exp-row'))">
+        <div class="exp-icon icon-orange">🏈</div>
+        <div class="exp-meta"><div class="exp-role">Student Manager</div><div class="exp-org">University of Florida Football</div></div>
+        <div class="exp-right"><span class="exp-date">Jan 2024 – Dec 2025</span><span class="exp-badge badge-ops">Operations</span><span class="chevron">▾</span></div>
+      </div>
+      <div class="exp-panel"><div class="exp-panel-inner"><div class="panel-inner">
+        <p class="panel-desc">Two years inside one of college football's most demanding programs — managing the equipment and logistics that keep 130+ athletes and 10 position groups running smoothly, from early morning practices to game days at The Swamp.</p>
+        <ul class="panel-bullets"><li>Managed daily equipment operations including practice and game-day setup, maintenance of a 10,000+ item inventory, and team travel logistics.</li><li>Operated the practice game clock while assisting with drill flow, situational periods, and on-field adjustments across 2–3 hour sessions.</li><li>Collaborated with all 10 position groups to ensure efficient transitions and keep operations on schedule.</li></ul>
+        <div class="panel-highlights"><span class="hl-orange">130+ athletes</span><span class="hl-orange">10,000+ item inventory</span><span class="hl-blue">10 position groups</span><span class="hl-blue">Game-day ops</span></div>
+        <p class="gallery-label">Photos</p>
+        <div class="gallery">
+          <div class="photo-slot" onclick="event.stopPropagation()"><span class="slot-icon">+</span><span class="slot-label">Add photo</span><input type="file" accept="image/*" onchange="loadPhoto(this)"><img class="hidden"></div>
+          <div class="photo-slot" onclick="event.stopPropagation()"><span class="slot-icon">+</span><span class="slot-label">Add photo</span><input type="file" accept="image/*" onchange="loadPhoto(this)"><img class="hidden"></div>
+          <div class="photo-slot" onclick="event.stopPropagation()"><span class="slot-icon">+</span><span class="slot-label">Add photo</span><input type="file" accept="image/*" onchange="loadPhoto(this)"><img class="hidden"></div>
+        </div>
+      </div></div></div>
+    </div>
+
+    <!-- Elevate -->
+    <div class="exp-row" id="exp-elev">
+      <div class="exp-banner"><img id="banner-img-elev" class="hidden"><div class="banner-overlay"></div><div class="banner-edit"><label class="banner-btn" onclick="event.stopPropagation()">📷 Upload image<input class="banner-input" type="file" accept="image/*" onchange="loadBanner(this,'elev')"></label><button class="banner-btn" onclick="event.stopPropagation();resetBanner('elev')">✕ Reset</button></div></div>
+      <div class="exp-header-inner" onclick="toggleExp(this.closest('.exp-row'))">
+        <div class="exp-icon icon-blue2">📣</div>
+        <div class="exp-meta"><div class="exp-role">NIL Marketing Intern</div><div class="exp-org">Elevate Sports Management</div></div>
+        <div class="exp-right"><span class="exp-date">Apr 2025 – Jul 2025</span><span class="exp-badge badge-mkt">Marketing</span><span class="chevron">▾</span></div>
+      </div>
+      <div class="exp-panel"><div class="exp-panel-inner"><div class="panel-inner">
+        <p class="panel-desc">Dove into the fast-moving NIL space working directly on athlete branding — helping real people build real partnerships with national brands while protecting their long-term image and career trajectory.</p>
+        <ul class="panel-bullets"><li>Developed marketing and branding strategies for 5 athletes, managing social media positioning and NIL partnerships with national brands.</li><li>Negotiated, structured, and managed sponsorship and NIL agreements, maintaining communication with corporate partners.</li><li>Ensured opportunities aligned with each athlete's long-term brand and career goals.</li></ul>
+        <div class="panel-highlights"><span class="hl-blue">5 athletes</span><span class="hl-blue">National brand deals</span><span class="hl-orange">NIL agreements</span><span class="hl-orange">Social strategy</span></div>
+        <p class="gallery-label">Photos</p>
+        <div class="gallery">
+          <div class="photo-slot" onclick="event.stopPropagation()"><span class="slot-icon">+</span><span class="slot-label">Add photo</span><input type="file" accept="image/*" onchange="loadPhoto(this)"><img class="hidden"></div>
+          <div class="photo-slot" onclick="event.stopPropagation()"><span class="slot-icon">+</span><span class="slot-label">Add photo</span><input type="file" accept="image/*" onchange="loadPhoto(this)"><img class="hidden"></div>
+          <div class="photo-slot" onclick="event.stopPropagation()"><span class="slot-icon">+</span><span class="slot-label">Add photo</span><input type="file" accept="image/*" onchange="loadPhoto(this)"><img class="hidden"></div>
+        </div>
+      </div></div></div>
+    </div>
+
+    <!-- Lifetime -->
+    <div class="exp-row" id="exp-lf">
+      <div class="exp-banner"><img id="banner-img-lf" class="hidden"><div class="banner-overlay"></div><div class="banner-edit"><label class="banner-btn" onclick="event.stopPropagation()">📷 Upload image<input class="banner-input" type="file" accept="image/*" onchange="loadBanner(this,'lf')"></label><button class="banner-btn" onclick="event.stopPropagation();resetBanner('lf')">✕ Reset</button></div></div>
+      <div class="exp-header-inner" onclick="toggleExp(this.closest('.exp-row'))">
+        <div class="exp-icon icon-orange2">💪</div>
+        <div class="exp-meta"><div class="exp-role">Facility Management Associate</div><div class="exp-org">Lifetime Fitness</div></div>
+        <div class="exp-right"><span class="exp-date">May 2025 – Aug 2025</span><span class="exp-badge badge-ops">Operations</span><span class="chevron">▾</span></div>
+      </div>
+      <div class="exp-panel"><div class="exp-panel-inner"><div class="panel-inner">
+        <p class="panel-desc">Kept a flagship 100,000 sq. ft. facility running day-in, day-out — learning the discipline of operational consistency and the importance of member experience at scale.</p>
+        <ul class="panel-bullets"><li>Collaborated with a 15-person team to execute opening and closing procedures for a facility serving 1,500+ daily members.</li><li>Ensured equipment functionality, maintained amenities, managed facility access, and addressed member inquiries.</li></ul>
+        <div class="panel-highlights"><span class="hl-orange">100,000 sq. ft.</span><span class="hl-orange">1,500+ members</span><span class="hl-blue">15-person team</span></div>
+        <p class="gallery-label">Photos</p>
+        <div class="gallery">
+          <div class="photo-slot" onclick="event.stopPropagation()"><span class="slot-icon">+</span><span class="slot-label">Add photo</span><input type="file" accept="image/*" onchange="loadPhoto(this)"><img class="hidden"></div>
+          <div class="photo-slot" onclick="event.stopPropagation()"><span class="slot-icon">+</span><span class="slot-label">Add photo</span><input type="file" accept="image/*" onchange="loadPhoto(this)"><img class="hidden"></div>
+          <div class="photo-slot" onclick="event.stopPropagation()"><span class="slot-icon">+</span><span class="slot-label">Add photo</span><input type="file" accept="image/*" onchange="loadPhoto(this)"><img class="hidden"></div>
+        </div>
+      </div></div></div>
+    </div>
+
+    <!-- Woodfield -->
+    <div class="exp-row" id="exp-wc">
+      <div class="exp-banner"><img id="banner-img-wc" class="hidden"><div class="banner-overlay"></div><div class="banner-edit"><label class="banner-btn" onclick="event.stopPropagation()">📷 Upload image<input class="banner-input" type="file" accept="image/*" onchange="loadBanner(this,'wc')"></label><button class="banner-btn" onclick="event.stopPropagation();resetBanner('wc')">✕ Reset</button></div></div>
+      <div class="exp-header-inner" onclick="toggleExp(this.closest('.exp-row'))">
+        <div class="exp-icon icon-teal">🎾</div>
+        <div class="exp-meta"><div class="exp-role">Member Services Attendant</div><div class="exp-org">Woodfield Country Club</div></div>
+        <div class="exp-right"><span class="exp-date">Dec 2021 – Nov 2024</span><span class="exp-badge badge-svc">Service</span><span class="chevron">▾</span></div>
+      </div>
+      <div class="exp-panel"><div class="exp-panel-inner"><div class="panel-inner">
+        <p class="panel-desc">Three years of high-touch member service at a premier private club — learning how to manage people, logistics, and expectations in a fast-paced, relationship-driven environment.</p>
+        <ul class="panel-bullets"><li>Oversaw daily operations for 5,000+ residents, coordinating 20 social courts for tennis and pickleball.</li><li>Managed member inquiries, transactions, reservations, and lesson bookings for 10 tennis professionals.</li><li>Assisted with event coordination and ongoing facility maintenance needs.</li></ul>
+        <div class="panel-highlights"><span class="hl-blue">5,000+ residents</span><span class="hl-blue">20 courts</span><span class="hl-orange">10 professionals</span></div>
+        <p class="gallery-label">Photos</p>
+        <div class="gallery">
+          <div class="photo-slot" onclick="event.stopPropagation()"><span class="slot-icon">+</span><span class="slot-label">Add photo</span><input type="file" accept="image/*" onchange="loadPhoto(this)"><img class="hidden"></div>
+          <div class="photo-slot" onclick="event.stopPropagation()"><span class="slot-icon">+</span><span class="slot-label">Add photo</span><input type="file" accept="image/*" onchange="loadPhoto(this)"><img class="hidden"></div>
+          <div class="photo-slot" onclick="event.stopPropagation()"><span class="slot-icon">+</span><span class="slot-label">Add photo</span><input type="file" accept="image/*" onchange="loadPhoto(this)"><img class="hidden"></div>
+        </div>
+      </div></div></div>
+    </div>
+
+  </div>
+</div>
+
+<!-- LEADERSHIP -->
+<div class="section reveal" id="leadership">
+  <div class="sec-header"><span class="sec-pill">Leadership & development</span><div class="sec-line"></div></div>
+  <div class="lead-list">
+
+    <div class="lead-row" id="lead-bige">
+      <div class="lead-banner"><img id="banner-img-bige" class="hidden"><div class="banner-overlay"></div><div class="banner-edit" style="position:absolute;bottom:8px;right:10px;display:flex;gap:6px;opacity:0;transition:opacity 0.2s;z-index:2;"><label class="banner-btn" onclick="event.stopPropagation()">📷 Upload<input class="banner-input" type="file" accept="image/*" onchange="loadBannerLead(this,'bige')"></label><button class="banner-btn" onclick="event.stopPropagation();resetBannerLead('bige')">✕</button></div></div>
+      <div class="lead-header" onclick="toggleLead(this.closest('.lead-row'))">
+        <div class="lead-accent-bar accent-blue"></div>
+        <div class="lead-meta"><div class="lead-org-sm">UF Big Event</div><div class="lead-role-sm">Assistant Director of Internal Affairs</div><div class="lead-date-sm">Oct 2025 – Present</div></div>
+        <span class="chevron">▾</span>
+      </div>
+      <div class="lead-panel"><div class="lead-panel-inner"><div class="lead-panel-body">
+        <p class="lead-panel-desc">Partners with local organizations and Student Government leaders to streamline site assignments, manage check-in operations, and ensure event efficiency.</p>
+        <ul class="lead-panel-bullets"><li>Coordinates logistics and communications for 1,400+ volunteers completing community projects across Gainesville.</li><li>Partners with SG leaders and local orgs to manage site assignments and check-in operations.</li></ul>
+      </div></div></div>
+    </div>
+
+    <div class="lead-row" id="lead-gsmo">
+      <div class="lead-banner"><img id="banner-img-gsmo" class="hidden"><div class="banner-overlay"></div><div class="banner-edit" style="position:absolute;bottom:8px;right:10px;display:flex;gap:6px;opacity:0;transition:opacity 0.2s;z-index:2;"><label class="banner-btn" onclick="event.stopPropagation()">📷 Upload<input class="banner-input" type="file" accept="image/*" onchange="loadBannerLead(this,'gsmo')"></label><button class="banner-btn" onclick="event.stopPropagation();resetBannerLead('gsmo')">✕</button></div></div>
+      <div class="lead-header" onclick="toggleLead(this.closest('.lead-row'))">
+        <div class="lead-accent-bar accent-orange"></div>
+        <div class="lead-meta"><div class="lead-org-sm">Gator Sports Management Organization</div><div class="lead-role-sm">Assistant Director of Membership & Events</div><div class="lead-date-sm">Sep 2025 – Present</div></div>
+        <span class="chevron">▾</span>
+      </div>
+      <div class="lead-panel"><div class="lead-panel-inner"><div class="lead-panel-body">
+        <p class="lead-panel-desc">Leads initiatives connecting students with sports industry professionals through networking events, panels, and collaborations.</p>
+        <ul class="lead-panel-bullets"><li>Manages onboarding of 50+ new members each cycle, engaging students early to support integration.</li><li>Organizes panels and networking events that connect students with real sports industry professionals.</li></ul>
+      </div></div></div>
+    </div>
+
+    <div class="lead-row" id="lead-msl">
+      <div class="lead-banner"><img id="banner-img-msl" class="hidden"><div class="banner-overlay"></div><div class="banner-edit" style="position:absolute;bottom:8px;right:10px;display:flex;gap:6px;opacity:0;transition:opacity 0.2s;z-index:2;"><label class="banner-btn" onclick="event.stopPropagation()">📷 Upload<input class="banner-input" type="file" accept="image/*" onchange="loadBannerLead(this,'msl')"></label><button class="banner-btn" onclick="event.stopPropagation();resetBannerLead('msl')">✕</button></div></div>
+      <div class="lead-header" onclick="toggleLead(this.closest('.lead-row'))">
+        <div class="lead-accent-bar accent-blue"></div>
+        <div class="lead-meta"><div class="lead-org-sm">Mu Sigma Lambda</div><div class="lead-role-sm">Co-Founder & Membership Director</div><div class="lead-date-sm">Sep 2024 – Present</div></div>
+        <span class="chevron">▾</span>
+      </div>
+      <div class="lead-panel"><div class="lead-panel-inner"><div class="lead-panel-body">
+        <p class="lead-panel-desc">Co-founded the first national co-ed fraternity for sports industry professionals, recruiting members to build a 110-person chapter from scratch.</p>
+        <ul class="lead-panel-bullets"><li>Directs sales, membership, and event strategy including the annual Sales Summit.</li><li>Engages alumni to lead workshops and secures high-profile industry speakers for member development.</li></ul>
+      </div></div></div>
+    </div>
+
+  </div>
+</div>
+
+<!-- CONTENT -->
+<div class="section reveal" id="content" style="padding-left:0;padding-right:0;max-width:100%;">
+  <div style="max-width:860px;margin:0 auto;padding:0 5vw 0;"><div class="sec-header"><span class="sec-pill">Content creation</span><div class="sec-line"></div></div></div>
+  <div class="content-outer">
+    <div class="content-inner">
+      <h2 class="content-title">Con<span>tent</span></h2>
+      <div class="tabs">
+        <button class="tab active" onclick="switchTab('lifestyle',this)">Lifestyle</button>
+        <button class="tab" onclick="switchTab('75hard',this)">75 Hard</button>
+        <button class="tab" onclick="switchTab('sports',this)">Sports Internship</button>
+      </div>
+      <div id="panel-lifestyle" class="tab-panel active">
+        <a class="video-card" href="https://www.tiktok.com/@mattyb2111/video/7642125249395445005" target="_blank"><img class="card-thumb" src="/mnt/user-data/uploads/1782930912530_image.png" style="object-position:17% center;"><div class="card-overlay"></div><span class="card-tag">Live</span><span class="card-views">▷ 670</span><div class="play-btn"><svg width="14" height="14" viewBox="0 0 14 14" fill="white"><path d="M3 2l9 5-9 5V2z"/></svg></div><div class="card-bottom"><div class="card-title-v">Serendipity Ice Cream Parlor — High Springs, FL</div><div class="card-meta"><span class="card-platform"><span class="platform-dot"></span>TikTok</span><span class="card-view-link">View ↗</span></div></div></a>
+        <a class="video-card" href="https://www.tiktok.com/@mattyb2111/video/7641735866255297805" target="_blank"><img class="card-thumb" src="/mnt/user-data/uploads/1782930912530_image.png" style="object-position:50% center;"><div class="card-overlay"></div><span class="card-tag">Live</span><span class="card-views">▷ 463</span><div class="play-btn"><svg width="14" height="14" viewBox="0 0 14 14" fill="white"><path d="M3 2l9 5-9 5V2z"/></svg></div><div class="card-bottom"><div class="card-title-v">Ichetucknee Springs Tubing — Fort White, FL</div><div class="card-meta"><span class="card-platform"><span class="platform-dot"></span>TikTok</span><span class="card-view-link">View ↗</span></div></div></a>
+        <a class="video-card" href="https://www.tiktok.com/@mattyb2111/video/7641219426901085453" target="_blank"><img class="card-thumb" src="/mnt/user-data/uploads/1782930785102_image.png"><div class="card-overlay"></div><span class="card-tag">Live</span><span class="card-views">▷ 692</span><div class="play-btn"><svg width="14" height="14" viewBox="0 0 14 14" fill="white"><path d="M3 2l9 5-9 5V2z"/></svg></div><div class="card-bottom"><div class="card-title-v">Retired Horse Farm — Alachua County, FL</div><div class="card-meta"><span class="card-platform"><span class="platform-dot"></span>TikTok</span><span class="card-view-link">View ↗</span></div></div></a>
+      </div>
+      <div id="panel-75hard" class="tab-panel">
+        <a class="video-card" href="https://www.tiktok.com/@mattyb2111" target="_blank"><div class="card-placeholder"><span class="placeholder-icon">🔥</span><span class="placeholder-label">Add thumbnail</span></div><div class="card-overlay"></div><span class="card-tag">Live</span><div class="play-btn"><svg width="14" height="14" viewBox="0 0 14 14" fill="white"><path d="M3 2l9 5-9 5V2z"/></svg></div><div class="card-bottom"><div class="card-title-v">Why I started 75 Hard</div><div class="card-meta"><span class="card-platform"><span class="platform-dot"></span>TikTok</span><span class="card-view-link">View ↗</span></div></div></a>
+        <a class="video-card" href="https://www.tiktok.com/@mattyb2111" target="_blank"><div class="card-placeholder"><span class="placeholder-icon">🔥</span><span class="placeholder-label">Add thumbnail</span></div><div class="card-overlay"></div><span class="card-tag">Live</span><div class="play-btn"><svg width="14" height="14" viewBox="0 0 14 14" fill="white"><path d="M3 2l9 5-9 5V2z"/></svg></div><div class="card-bottom"><div class="card-title-v">Day 1 — the rules, the diet, the plan</div><div class="card-meta"><span class="card-platform"><span class="platform-dot"></span>TikTok</span><span class="card-view-link">View ↗</span></div></div></a>
+        <a class="video-card" href="https://www.tiktok.com/@mattyb2111" target="_blank"><div class="card-placeholder"><span class="placeholder-icon">🔥</span><span class="placeholder-label">Add thumbnail</span></div><div class="card-overlay"></div><span class="card-tag">Live</span><div class="play-btn"><svg width="14" height="14" viewBox="0 0 14 14" fill="white"><path d="M3 2l9 5-9 5V2z"/></svg></div><div class="card-bottom"><div class="card-title-v">Progress update — what's changed so far</div><div class="card-meta"><span class="card-platform"><span class="platform-dot"></span>TikTok</span><span class="card-view-link">View ↗</span></div></div></a>
+      </div>
+      <div id="panel-sports" class="tab-panel">
+        <div class="video-card"><div class="card-placeholder"><span class="placeholder-icon">🏟️</span><span class="placeholder-label">Coming soon</span></div><div class="card-overlay"></div><span class="card-tag tag-soon">Coming soon</span><div class="play-btn"><svg width="14" height="14" viewBox="0 0 14 14" fill="white"><path d="M3 2l9 5-9 5V2z"/></svg></div><div class="card-bottom"><div class="card-title-v">How I landed my first sports internship</div><div class="card-meta"><span class="card-platform"><span class="platform-dot"></span>TikTok</span><span class="card-view-link" style="opacity:0.35">Soon</span></div></div></div>
+        <div class="video-card"><div class="card-placeholder"><span class="placeholder-icon">🏟️</span><span class="placeholder-label">Coming soon</span></div><div class="card-overlay"></div><span class="card-tag tag-soon">Coming soon</span><div class="play-btn"><svg width="14" height="14" viewBox="0 0 14 14" fill="white"><path d="M3 2l9 5-9 5V2z"/></svg></div><div class="card-bottom"><div class="card-title-v">What they don't tell you about NIL internships</div><div class="card-meta"><span class="card-platform"><span class="platform-dot"></span>TikTok</span><span class="card-view-link" style="opacity:0.35">Soon</span></div></div></div>
+        <div class="video-card"><div class="card-placeholder"><span class="placeholder-icon">🏟️</span><span class="placeholder-label">Coming soon</span></div><div class="card-overlay"></div><span class="card-tag tag-soon">Coming soon</span><div class="play-btn"><svg width="14" height="14" viewBox="0 0 14 14" fill="white"><path d="M3 2l9 5-9 5V2z"/></svg></div><div class="card-bottom"><div class="card-title-v">Breaking into sports business as a college student</div><div class="card-meta"><span class="card-platform"><span class="platform-dot"></span>TikTok</span><span class="card-view-link" style="opacity:0.35">Soon</span></div></div></div>
+      </div>
+      <div class="content-cta">
+        <div class="cta-left"><strong>Follow along @mattyb2111</strong><p>Open to brand partnerships, NIL deals, and collaborations in sports & business.</p></div>
+        <div class="cta-btns"><a href="https://www.tiktok.com/@mattyb2111" target="_blank" class="btn btn-white">TikTok ↗</a><a href="#contact" class="btn btn-outline-white">Get in touch</a></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SKILLS -->
+<div class="section reveal" id="skills">
+  <div class="sec-header"><span class="sec-pill">Skills & interests</span><div class="sec-line"></div></div>
+  <div class="skills-section">
+
+    <!-- Software -->
+    <div class="skill-category">
+      <h3>Software</h3>
+      <div class="skill-chips">
+        <button class="skill-chip" onclick="toggleSkill(this,'software-word')">Microsoft Word</button>
+        <button class="skill-chip" onclick="toggleSkill(this,'software-excel')">Excel</button>
+        <button class="skill-chip" onclick="toggleSkill(this,'software-ppt')">PowerPoint</button>
+        <button class="skill-chip" onclick="toggleSkill(this,'software-python')">Python</button>
+        <button class="skill-chip" onclick="toggleSkill(this,'software-canva')">Canva</button>
+      </div>
+      <div class="skill-panel" id="software-word"><div class="skill-panel-header"><span class="skill-panel-name">Microsoft Word — used in:</span><button class="skill-panel-close" onclick="closeSkill('software-word')">×</button></div><div class="skill-used-list"><div class="skill-used-item"><span class="skill-used-icon">🏟️</span><div class="skill-used-text"><div class="skill-used-role">Event Management Intern</div><div class="skill-used-org">Gainesville Sports Commission — itinerary & communications drafting</div></div></div><div class="skill-used-item"><span class="skill-used-icon">🏈</span><div class="skill-used-text"><div class="skill-used-role">Student Manager</div><div class="skill-used-org">UF Football — travel logistics documentation</div></div></div><div class="skill-used-item"><span class="skill-used-icon">🎓</span><div class="skill-used-text"><div class="skill-used-role">Mu Sigma Lambda</div><div class="skill-used-org">Co-Founder — chapter documents & event planning</div></div></div></div></div>
+      <div class="skill-panel" id="software-excel"><div class="skill-panel-header"><span class="skill-panel-name">Excel — used in:</span><button class="skill-panel-close" onclick="closeSkill('software-excel')">×</button></div><div class="skill-used-list"><div class="skill-used-item"><span class="skill-used-icon">🏟️</span><div class="skill-used-text"><div class="skill-used-role">Event Management Intern</div><div class="skill-used-org">Gainesville Sports Commission — athlete & vendor tracking</div></div></div><div class="skill-used-item"><span class="skill-used-icon">🏈</span><div class="skill-used-text"><div class="skill-used-role">Student Manager</div><div class="skill-used-org">UF Football — 10,000+ item inventory management</div></div></div><div class="skill-used-item"><span class="skill-used-icon">💪</span><div class="skill-used-text"><div class="skill-used-role">Facility Management Associate</div><div class="skill-used-org">Lifetime Fitness — operational scheduling & reporting</div></div></div></div></div>
+      <div class="skill-panel" id="software-ppt"><div class="skill-panel-header"><span class="skill-panel-name">PowerPoint — used in:</span><button class="skill-panel-close" onclick="closeSkill('software-ppt')">×</button></div><div class="skill-used-list"><div class="skill-used-item"><span class="skill-used-icon">📣</span><div class="skill-used-text"><div class="skill-used-role">NIL Marketing Intern</div><div class="skill-used-org">Elevate Sports Management — brand strategy presentations</div></div></div><div class="skill-used-item"><span class="skill-used-icon">🎓</span><div class="skill-used-text"><div class="skill-used-role">Mu Sigma Lambda</div><div class="skill-used-org">Co-Founder — Sales Summit & speaker event decks</div></div></div></div></div>
+      <div class="skill-panel" id="software-python"><div class="skill-panel-header"><span class="skill-panel-name">Python — used in:</span><button class="skill-panel-close" onclick="closeSkill('software-python')">×</button></div><div class="skill-used-list"><div class="skill-used-item"><span class="skill-used-icon">📊</span><div class="skill-used-text"><div class="skill-used-role">Academic & personal projects</div><div class="skill-used-org">UF Coursework — data analysis and sports statistics exploration</div></div></div></div></div>
+      <div class="skill-panel" id="software-canva"><div class="skill-panel-header"><span class="skill-panel-name">Canva — used in:</span><button class="skill-panel-close" onclick="closeSkill('software-canva')">×</button></div><div class="skill-used-list"><div class="skill-used-item"><span class="skill-used-icon">📣</span><div class="skill-used-text"><div class="skill-used-role">NIL Marketing Intern</div><div class="skill-used-org">Elevate Sports Management — athlete social media graphics & branding assets</div></div></div><div class="skill-used-item"><span class="skill-used-icon">🏟️</span><div class="skill-used-text"><div class="skill-used-role">Event Management Intern</div><div class="skill-used-org">Gainesville Sports Commission — event marketing materials</div></div></div><div class="skill-used-item"><span class="skill-used-icon">🎓</span><div class="skill-used-text"><div class="skill-used-role">GSMO & Mu Sigma Lambda</div><div class="skill-used-org">Leadership — promotional content & membership materials</div></div></div></div></div>
+    </div>
+
+    <!-- Professional -->
+    <div class="skill-category">
+      <h3>Professional</h3>
+      <div class="skill-chips">
+        <button class="skill-chip orange-chip" onclick="toggleSkill(this,'pro-event')">Event management</button>
+        <button class="skill-chip orange-chip" onclick="toggleSkill(this,'pro-nil')">NIL & sponsorship</button>
+        <button class="skill-chip orange-chip" onclick="toggleSkill(this,'pro-ops')">Sports operations</button>
+        <button class="skill-chip orange-chip" onclick="toggleSkill(this,'pro-client')">Client relations</button>
+        <button class="skill-chip orange-chip" onclick="toggleSkill(this,'pro-vendor')">Vendor coordination</button>
+      </div>
+      <div class="skill-panel" id="pro-event"><div class="skill-panel-header"><span class="skill-panel-name">Event management — used in:</span><button class="skill-panel-close" onclick="closeSkill('pro-event')">×</button></div><div class="skill-used-list"><div class="skill-used-item"><span class="skill-used-icon">🏟️</span><div class="skill-used-text"><div class="skill-used-role">Event Management Intern</div><div class="skill-used-org">Gainesville Sports Commission — full event lifecycle, 5,000+ athletes</div></div></div><div class="skill-used-item"><span class="skill-used-icon">🎾</span><div class="skill-used-text"><div class="skill-used-role">Member Services Attendant</div><div class="skill-used-org">Woodfield Country Club — court scheduling & event coordination</div></div></div><div class="skill-used-item"><span class="skill-used-icon">🏅</span><div class="skill-used-text"><div class="skill-used-role">Assistant Director</div><div class="skill-used-org">UF Big Event — 1,400+ volunteer event logistics</div></div></div></div></div>
+      <div class="skill-panel" id="pro-nil"><div class="skill-panel-header"><span class="skill-panel-name">NIL & sponsorship — used in:</span><button class="skill-panel-close" onclick="closeSkill('pro-nil')">×</button></div><div class="skill-used-list"><div class="skill-used-item"><span class="skill-used-icon">📣</span><div class="skill-used-text"><div class="skill-used-role">NIL Marketing Intern</div><div class="skill-used-org">Elevate Sports Management — negotiated & managed NIL deals for 5 athletes</div></div></div></div></div>
+      <div class="skill-panel" id="pro-ops"><div class="skill-panel-header"><span class="skill-panel-name">Sports operations — used in:</span><button class="skill-panel-close" onclick="closeSkill('pro-ops')">×</button></div><div class="skill-used-list"><div class="skill-used-item"><span class="skill-used-icon">🏈</span><div class="skill-used-text"><div class="skill-used-role">Student Manager</div><div class="skill-used-org">UF Football — daily ops for D1 program, 130+ athletes</div></div></div><div class="skill-used-item"><span class="skill-used-icon">🏟️</span><div class="skill-used-text"><div class="skill-used-role">Event Management Intern</div><div class="skill-used-org">Gainesville Sports Commission — multi-sport event operations</div></div></div></div></div>
+      <div class="skill-panel" id="pro-client"><div class="skill-panel-header"><span class="skill-panel-name">Client relations — used in:</span><button class="skill-panel-close" onclick="closeSkill('pro-client')">×</button></div><div class="skill-used-list"><div class="skill-used-item"><span class="skill-used-icon">🎾</span><div class="skill-used-text"><div class="skill-used-role">Member Services Attendant</div><div class="skill-used-org">Woodfield Country Club — daily service for 5,000+ residents</div></div></div><div class="skill-used-item"><span class="skill-used-icon">📣</span><div class="skill-used-text"><div class="skill-used-role">NIL Marketing Intern</div><div class="skill-used-org">Elevate Sports Management — corporate partner communication</div></div></div><div class="skill-used-item"><span class="skill-used-icon">🏟️</span><div class="skill-used-text"><div class="skill-used-role">Event Management Intern</div><div class="skill-used-org">Gainesville Sports Commission — vendor & stakeholder relations</div></div></div></div></div>
+      <div class="skill-panel" id="pro-vendor"><div class="skill-panel-header"><span class="skill-panel-name">Vendor coordination — used in:</span><button class="skill-panel-close" onclick="closeSkill('pro-vendor')">×</button></div><div class="skill-used-list"><div class="skill-used-item"><span class="skill-used-icon">🏟️</span><div class="skill-used-text"><div class="skill-used-role">Event Management Intern</div><div class="skill-used-org">Gainesville Sports Commission — multi-vendor event coordination</div></div></div><div class="skill-used-item"><span class="skill-used-icon">💪</span><div class="skill-used-text"><div class="skill-used-role">Facility Management Associate</div><div class="skill-used-org">Lifetime Fitness — vendor & maintenance coordination</div></div></div></div></div>
+    </div>
+
+    <!-- Interests -->
+    <div class="skill-category">
+      <h3>Interests</h3>
+      <div class="interest-list">
+
+        <div class="interest-row" id="int-art">
+          <div class="interest-header" onclick="toggleInterest(this.closest('.interest-row'))">
+            <div class="interest-icon-wrap" style="background:#f0eeff;">🎨</div>
+            <div class="interest-meta"><div class="interest-name">Art</div><div class="interest-sub">Recreational & digital art</div></div>
+            <span class="interest-chevron">▾</span>
+          </div>
+          <div class="interest-panel"><div class="interest-panel-inner"><div class="interest-body">
+            <p class="interest-desc">I create both recreational and digital art as a creative outlet alongside my work in sports and business.</p>
+            <div class="interest-gallery" id="gallery-art">
+              <div class="interest-slot" onclick="event.stopPropagation()"><span class="slot-icon">+</span><span class="slot-label">Add artwork</span><input type="file" accept="image/*" onchange="loadInterestPhoto(this)"><img class="hidden"></div>
+              <div class="interest-slot" onclick="event.stopPropagation()"><span class="slot-icon">+</span><span class="slot-label">Add artwork</span><input type="file" accept="image/*" onchange="loadInterestPhoto(this)"><img class="hidden"></div>
+              <div class="interest-slot" onclick="event.stopPropagation()"><span class="slot-icon">+</span><span class="slot-label">Add artwork</span><input type="file" accept="image/*" onchange="loadInterestPhoto(this)"><img class="hidden"></div>
+            </div>
+            <div><p style="font-size:12px;text-transform:uppercase;letter-spacing:0.07em;color:var(--muted);margin-bottom:0.6rem;">Links</p><div class="interest-link-row"><input class="interest-link-input" placeholder="Paste a link (portfolio, Instagram, etc.)" id="link-input-art"><button class="interest-link-btn" onclick="addLink('art')">Add</button></div><div class="interest-links-display" id="links-art"></div></div>
+          </div></div></div>
+        </div>
+
+        <div class="interest-row" id="int-sneakers">
+          <div class="interest-header" onclick="toggleInterest(this.closest('.interest-row'))">
+            <div class="interest-icon-wrap" style="background:#fff0ec;">👟</div>
+            <div class="interest-meta"><div class="interest-name">Sneakers</div><div class="interest-sub">Sneaker culture & collection</div></div>
+            <span class="interest-chevron">▾</span>
+          </div>
+          <div class="interest-panel"><div class="interest-panel-inner"><div class="interest-body">
+            <p class="interest-desc">Sneakers are a passion of mine — from collecting to following drops, colorways, and the culture around footwear.</p>
+            <div class="interest-gallery">
+              <div class="interest-slot" onclick="event.stopPropagation()"><span class="slot-icon">+</span><span class="slot-label">Add photo</span><input type="file" accept="image/*" onchange="loadInterestPhoto(this)"><img class="hidden"></div>
+              <div class="interest-slot" onclick="event.stopPropagation()"><span class="slot-icon">+</span><span class="slot-label">Add photo</span><input type="file" accept="image/*" onchange="loadInterestPhoto(this)"><img class="hidden"></div>
+              <div class="interest-slot" onclick="event.stopPropagation()"><span class="slot-icon">+</span><span class="slot-label">Add photo</span><input type="file" accept="image/*" onchange="loadInterestPhoto(this)"><img class="hidden"></div>
+            </div>
+            <div><p style="font-size:12px;text-transform:uppercase;letter-spacing:0.07em;color:var(--muted);margin-bottom:0.6rem;">Links</p><div class="interest-link-row"><input class="interest-link-input" placeholder="StockX, GOAT, Instagram, etc." id="link-input-sneakers"><button class="interest-link-btn" onclick="addLink('sneakers')">Add</button></div><div class="interest-links-display" id="links-sneakers"></div></div>
+          </div></div></div>
+        </div>
+
+        <div class="interest-row" id="int-bowling">
+          <div class="interest-header" onclick="toggleInterest(this.closest('.interest-row'))">
+            <div class="interest-icon-wrap" style="background:#e8eef7;">🎳</div>
+            <div class="interest-meta"><div class="interest-name">Bowling</div><div class="interest-sub">High school varsity captain</div></div>
+            <span class="interest-chevron">▾</span>
+          </div>
+          <div class="interest-panel"><div class="interest-panel-inner"><div class="interest-body">
+            <p class="interest-desc">Competed as varsity bowling captain in high school — bowling taught me focus, consistency, and how to perform under pressure.</p>
+            <div class="interest-gallery">
+              <div class="interest-slot" onclick="event.stopPropagation()"><span class="slot-icon">+</span><span class="slot-label">Add photo</span><input type="file" accept="image/*" onchange="loadInterestPhoto(this)"><img class="hidden"></div>
+              <div class="interest-slot" onclick="event.stopPropagation()"><span class="slot-icon">+</span><span class="slot-label">Add photo</span><input type="file" accept="image/*" onchange="loadInterestPhoto(this)"><img class="hidden"></div>
+              <div class="interest-slot" onclick="event.stopPropagation()"><span class="slot-icon">+</span><span class="slot-label">Add photo</span><input type="file" accept="image/*" onchange="loadInterestPhoto(this)"><img class="hidden"></div>
+            </div>
+            <div><p style="font-size:12px;text-transform:uppercase;letter-spacing:0.07em;color:var(--muted);margin-bottom:0.6rem;">Links</p><div class="interest-link-row"><input class="interest-link-input" placeholder="Videos, scores, team page, etc." id="link-input-bowling"><button class="interest-link-btn" onclick="addLink('bowling')">Add</button></div><div class="interest-links-display" id="links-bowling"></div></div>
+          </div></div></div>
+        </div>
+
+        <div class="interest-row" id="int-sports">
+          <div class="interest-header" onclick="toggleInterest(this.closest('.interest-row'))">
+            <div class="interest-icon-wrap" style="background:#e8eef7;">📊</div>
+            <div class="interest-meta"><div class="interest-name">Sports Statistics</div><div class="interest-sub">Analytics & data in sports</div></div>
+            <span class="interest-chevron">▾</span>
+          </div>
+          <div class="interest-panel"><div class="interest-panel-inner"><div class="interest-body">
+            <p class="interest-desc">Fascinated by the intersection of data and sports — from player analytics to performance metrics and how numbers shape modern sports decisions.</p>
+            <div class="interest-gallery">
+              <div class="interest-slot" onclick="event.stopPropagation()"><span class="slot-icon">+</span><span class="slot-label">Add image</span><input type="file" accept="image/*" onchange="loadInterestPhoto(this)"><img class="hidden"></div>
+              <div class="interest-slot" onclick="event.stopPropagation()"><span class="slot-icon">+</span><span class="slot-label">Add image</span><input type="file" accept="image/*" onchange="loadInterestPhoto(this)"><img class="hidden"></div>
+              <div class="interest-slot" onclick="event.stopPropagation()"><span class="slot-icon">+</span><span class="slot-label">Add image</span><input type="file" accept="image/*" onchange="loadInterestPhoto(this)"><img class="hidden"></div>
+            </div>
+            <div><p style="font-size:12px;text-transform:uppercase;letter-spacing:0.07em;color:var(--muted);margin-bottom:0.6rem;">Links</p><div class="interest-link-row"><input class="interest-link-input" placeholder="Projects, articles, tools, etc." id="link-input-sports"><button class="interest-link-btn" onclick="addLink('sports')">Add</button></div><div class="interest-links-display" id="links-sports"></div></div>
+          </div></div></div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CONTACT -->
+<div class="section reveal" id="contact">
+  <div class="sec-header"><span class="sec-pill">Contact</span><div class="sec-line"></div></div>
+  <div class="contact-split">
+    <div>
+      <h2 class="contact-h">Let's connect.</h2>
+      <p class="contact-p">Open to internships, collaborations, and conversations about sports, events, and business. Based in Gainesville, FL.</p>
+      <div class="contact-links">
+        <a href="https://www.linkedin.com/in/matthew-buchman" class="contact-link" target="_blank"><span class="c-icon">in</span>linkedin.com/in/matthew-buchman</a>
+        <a href="mailto:djmbbuchman@icloud.com" class="contact-link"><span class="c-icon">@</span>djmbbuchman@icloud.com</a>
+        <a href="tel:5615040672" class="contact-link"><span class="c-icon">☎</span>(561) 504-0672</a>
+        <a href="https://www.tiktok.com/@mattyb2111" class="contact-link" target="_blank"><span class="c-icon" style="font-size:11px">tt</span>@mattyb2111</a>
+      </div>
+    </div>
+    <form>
+      <input type="text" placeholder="Your name">
+      <input type="email" placeholder="Your email">
+      <textarea rows="5" placeholder="Your message"></textarea>
+      <button type="button" class="btn btn-primary" style="align-self:flex-start">Send message</button>
+    </form>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-logo"><img src="/mnt/user-data/uploads/Screenshot_2026-07-01_131030.png" alt="MB"></div>
+  <span>Matthew Buchman · University of Florida · 2026</span>
+</footer>
+
+<script>
+function toggleExp(row){row.classList.toggle('open');}
+function toggleLead(row){row.classList.toggle('open');}
+function toggleInterest(row){row.classList.toggle('open');}
+
+function loadPhoto(input){
+  if(!input.files||!input.files[0])return;
+  const slot=input.closest('.photo-slot');
+  const img=slot.querySelector('img');
+  const r=new FileReader();
+  r.onload=e=>{img.src=e.target.result;img.classList.remove('hidden');slot.classList.add('has-photo');};
+  r.readAsDataURL(input.files[0]);
+}
+function loadInterestPhoto(input){
+  if(!input.files||!input.files[0])return;
+  const slot=input.closest('.interest-slot');
+  const img=slot.querySelector('img');
+  const r=new FileReader();
+  r.onload=e=>{img.src=e.target.result;img.classList.remove('hidden');slot.classList.add('has-photo');};
+  r.readAsDataURL(input.files[0]);
+}
+function loadBanner(input,id){
+  if(!input.files||!input.files[0])return;
+  const img=document.getElementById('banner-img-'+id);
+  const r=new FileReader();
+  r.onload=e=>{img.src=e.target.result;img.classList.remove('hidden');};
+  r.readAsDataURL(input.files[0]);
+}
+function resetBanner(id){
+  const img=document.getElementById('banner-img-'+id);
+  img.src='';img.classList.add('hidden');
+}
+function loadBannerLead(input,id){
+  if(!input.files||!input.files[0])return;
+  const img=document.getElementById('banner-img-'+id);
+  const r=new FileReader();
+  r.onload=e=>{img.src=e.target.result;img.classList.remove('hidden');};
+  r.readAsDataURL(input.files[0]);
+}
+function resetBannerLead(id){
+  const img=document.getElementById('banner-img-'+id);
+  img.src='';img.classList.add('hidden');
+}
+
+function toggleSkill(btn,panelId){
+  const isActive=btn.classList.contains('active');
+  document.querySelectorAll('.skill-chip').forEach(c=>c.classList.remove('active'));
+  document.querySelectorAll('.skill-panel').forEach(p=>p.classList.remove('open'));
+  if(!isActive){btn.classList.add('active');document.getElementById(panelId).classList.add('open');}
+}
+function closeSkill(id){
+  document.getElementById(id).classList.remove('open');
+  document.querySelectorAll('.skill-chip').forEach(c=>c.classList.remove('active'));
+}
+
+function addLink(key){
+  const input=document.getElementById('link-input-'+key);
+  const val=input.value.trim();
+  if(!val)return;
+  const container=document.getElementById('links-'+key);
+  const item=document.createElement('div');
+  item.className='interest-link-item';
+  item.innerHTML=`<a href="${val}" target="_blank">${val}</a><button class="interest-link-remove" onclick="this.closest('.interest-link-item').remove()">×</button>`;
+  container.appendChild(item);
+  input.value='';
+}
+
+function switchTab(id,btn){
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('panel-'+id).classList.add('active');
+}
+
+// leadership banner hover
+document.querySelectorAll('.lead-row').forEach(row=>{
+  const editEl=row.querySelector('.banner-edit');
+  if(editEl){
+    row.addEventListener('mouseenter',()=>editEl.style.opacity='1');
+    row.addEventListener('mouseleave',()=>editEl.style.opacity='0');
+  }
+});
+
+const observer=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible');});
+},{threshold:0.08});
+document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
+</script>
+</body>
+</html>
